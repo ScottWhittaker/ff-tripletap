@@ -19,6 +19,8 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
     <script>
         (function () {
 
+            'use strict';
+
             var alphaNumeric = {
                 "48": ["&#x2423;", "0"],
                 "49": ["@", "1", ".", ",", "-", "_", "/"],
@@ -69,7 +71,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                  *  @attribute placeholder
                  *  @type string text
                  */
-                type: 'placeholder',
+                 placeholder: '',
 
                 /**
                  *  Specify input type. Default is text.
