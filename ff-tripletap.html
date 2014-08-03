@@ -10,7 +10,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
 @element ff-tripletap
 @homepage http://scottwhittaker.github.io/ff-tripletap
 -->
-<polymer-element name="ff-tripletap" attributes="case delay placeholder type value">
+<polymer-element name="ff-tripletap" attributes="delay lowerCase placeholder type value">
     <template>
         <link rel="stylesheet" href="ff-tripletap.css"/>
         <input id="input" value="{{value}}" type="{{type}}" placeholder="{{placeholder}}">
@@ -37,18 +37,6 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
             Polymer('ff-tripletap', {
 
                 /**
-                 *  Specify case for input text. Default is uppercase.
-                 *
-                 *  Example:
-                 *
-                 *     <ff-tripletap case="lowercase"></ff-tripletap>
-                 *
-                 *  @attribute case
-                 *  @type string uppercase|lowercase
-                 */
-                case: 'uppercase',
-
-                /**
                  * The `delay` attribute defines a time in milliseconds. This is the time that should elapse after a
                  * key has been released and the selected character is added to the input field. Default is 1000.
                  *
@@ -60,6 +48,19 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                  * @type number
                  */
                 delay: 1000,
+
+                /**
+                 *  Specify lower case for input text.
+                 *
+                 *  Example:
+                 *
+                 *     <ff-tripletap lowerCase></ff-tripletap>
+                 *
+                 *  @attribute lowerCase
+                 *  @type boolean
+                 *  @default false
+                 */
+                lowerCase: false,
 
                 /**
                  *  Specify placeholder text.
@@ -120,7 +121,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                 },
 
                 setCase: function() {
-                    if (this.case === 'lowercase') {
+                    if (this.lowerCase) {
                         this.$.input.classList.add('lowercase');
                         this.$.char.classList.add('lowercase');
                     }
