@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>ff-tripletap Demo</title>
+    <script src="../platform/platform.js"></script>
+    <link rel="import" href="../core-component-page/core-component-page.html">
+    <link rel="import" href="ff-tripletap.html">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <style>
+        ff-tripletap {
+            margin: 16px 0;
+        }
+        .container {
+            margin-top: 32px;
+        }
+    </style>
+</head>
+<body unresolved>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>ff-tripletap</h1>
+            <p>send focus to the input, use number keys to enter a value...</p>
+            <ff-tripletap placeholder="tripletap"></ff-tripletap>
+        </div>
+        <div>
+            <p class="alert alert-info hide" role="alert">
+                <strong>ff-tripletap-changed</strong> event has been fired, do something cool with the value... <span></span>
+            </p>
+        </div>
+    </div>
+    <script>
+        'use strict';
+        var span = document.querySelector('p > span');
+        var ff = document.querySelector('ff-tripletap');
+        var alert = document.querySelector('.alert');
+        ff.addEventListener('ff-tripletap-changed', function (e) {
+            span.textContent = this.value;
+            if(this.value != '') {
+                alert.classList.remove('hide');
+            } else {
+                alert.classList.add('hide');
+            }
+        });
+    </script>
+</body>
+</html>

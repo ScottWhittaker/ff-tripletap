@@ -1,0 +1,205 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-component-page/core-component-page.html"><!--
+Triple-tap input for use with an RCU on connected TV's via a 5-way control.
+
+##### Example
+
+    <ff-tripletap></ff-tripletap>
+
+@element ff-tripletap
+@homepage http://scottwhittaker.github.io/ff-tripletap
+-->
+<polymer-element
+        name="ff-tripletap"
+        attributes="delay lowerCase placeholder type value"
+        on-keydown="{{keyDownHandler}}"
+        on-focus="{{focusHandler}}"
+        on-blur="{{blurHandler}}">
+    <template>
+        <link rel="stylesheet" href="ff-tripletap.css"/>
+        <input id="input" value="{{value}}" type="{{type}}" placeholder="{{placeholder}}">
+        <label id="char" for="input"></label>
+    </template>
+    <script>
+        (function () {
+
+            'use strict';
+
+            var alphaNumeric = {
+                "48": ["&#x2423;", "0"],
+                "49": ["@", "1", ".", ",", "-", "_", "/"],
+                "50": ["A", "B", "C", "2"],
+                "51": ["D", "E", "F", "3"],
+                "52": ["G", "H", "I", "4"],
+                "53": ["J", "K", "L", "5"],
+                "54": ["M", "N", "O", "6"],
+                "55": ["P", "Q", "R", "S", "7"],
+                "56": ["T", "U", "V", "8"],
+                "57": ["W", "X", "Y", "Z", "9"]
+            };
+
+            Polymer('ff-tripletap', {
+
+                /**
+                 * The `delay` attribute defines a time in milliseconds. This is the time that should elapse after a
+                 * key has been released and the selected character is added to the input field. Default is 1000.
+                 *
+                 * Example:
+                 *
+                 *     <ff-tripletap delay="1200"></ff-tripletap>
+                 *
+                 * @attribute delay
+                 * @type number
+                 * @default 1000
+                 */
+                delay: 1000,
+
+                /**
+                 *  Specify lower case for input text.
+                 *
+                 *  Example:
+                 *
+                 *     <ff-tripletap lowerCase></ff-tripletap>
+                 *
+                 *  @attribute lowerCase
+                 *  @type boolean
+                 *  @default false
+                 */
+                lowerCase: false,
+
+                /**
+                 *  Specify placeholder text.
+                 *
+                 *  Example:
+                 *
+                 *     <ff-tripletap placeholder="Enter your name"></ff-tripletap>
+                 *
+                 *  @attribute placeholder
+                 *  @type string text
+                 */
+                placeholder: '',
+
+                /**
+                 *  Specify input type. Default is text.
+                 *
+                 *  Example:
+                 *
+                 *     <ff-tripletap type="password"></ff-tripletap>
+                 *
+                 *  @attribute type
+                 *  @type string text|password
+                 *  @default text
+                 */
+                type: 'text',
+
+                /**
+                 * The `value` attribute sets an initial value for the input
+                 *
+                 * Example:
+                 *
+                 *     <ff-tripletap value="foo"></ff-tripletap>
+                 *
+                 * @attribute value
+                 * @type string
+                 */
+                value: '',
+
+                /**
+                 * The `ff-tripletap-changed` event is fired whenever the input value changes
+                 *
+                 * @event ff-tripletap-changed
+                 */
+
+                keypressCount: 0,
+                timeoutID: null,
+                currentKeyCode: -1,
+                previousKeyCode: -1,
+                isSpace: false,
+
+                ready: function () {
+
+                    this.setCase();
+                },
+
+                setCase: function () {
+                    if (this.lowerCase) {
+                        this.$.input.classList.add('lowercase');
+                        this.$.char.classList.add('lowercase');
+                    }
+                },
+
+                focusHandler: function (e) {
+                    this.classList.add('active');
+                    this.$.input.focus();
+                },
+
+                blurHandler: function (e) {
+                    this.classList.remove('active');
+                    this.$.input.blur();
+                },
+
+                keyDownHandler: function (e) {
+                    switch (e.keyCode) {
+                    case 48:
+                    case 49:
+                    case 50:
+                    case 51:
+                    case 52:
+                    case 53:
+                    case 54:
+                    case 55:
+                    case 56:
+                    case 57:
+                        this.start();
+                        this.currentKeyCode = e.keyCode;
+                        this.cycleCharacters();
+                        e.preventDefault();
+                        break;
+                    case 8: // backspace
+                        this.value = this.$.input.value = this.$.input.value.slice(0, -1);
+                        e.preventDefault();
+                        break;
+                    case 9:
+                        // Allow tab key press to bubble
+                        break;
+                    default:
+                        e.preventDefault();
+                    }
+                },
+
+                start: function () {
+                    window.clearTimeout(this.timeoutID);
+                    this.timeoutID = window.setTimeout(this.timeout.bind(this), this.delay);
+                },
+
+                timeout: function () {
+                    this.$.input.value += this.isSpace ? ' ' : this.$.char.textContent;
+                    this.value = this.$.input.value;
+                    this.keypressCount = 0;
+                    this.$.char.textContent = '';
+
+                    this.$.input.blur();
+                    this.$.input.focus();
+                },
+
+                cycleCharacters: function () {
+                    var characters = alphaNumeric[this.currentKeyCode];
+                    if (this.keypressCount > characters.length - 1 || this.previousKeyCode !== this.currentKeyCode) {
+                        this.keypressCount = 0;
+                    }
+                    this.$.char.innerHTML = characters[this.keypressCount];
+                    this.isSpace = false;
+                    if (this.currentKeyCode === 48 && this.keypressCount === 0) {
+                        this.isSpace = true;
+                    }
+                    this.keypressCount++;
+                    this.previousKeyCode = this.currentKeyCode;
+                },
+
+                valueChanged: function (oldValue, newValue) {
+                    this.fire('ff-tripletap-changed');
+                }
+            });
+        }());
+    </script>
+</polymer-element>

@@ -1,0 +1,7 @@
+{
+  "name": "ff-tripletap#gh-pages",
+  "private": true,
+  "dependencies": {
+    "ff-tripletap": "scottwhittaker/ff-tripletap#master"
+  }
+}

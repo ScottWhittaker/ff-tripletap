@@ -1,0 +1,28 @@
+{
+  "name": "ff-tripletap",
+  "authors": [
+    "Scott Whittaker <scott@fiftyfathom.co.uk>"
+  ],
+  "description": "Triple-tap input for use with an RCU on connected TV's via a 5-way control.",
+  "keywords": "ff-tripletap, polymer, web-components",
+  "main": "ff-tripletap.html",
+  "license": "MIT",
+  "homepage": "https://github.com/scottwhittaker/ff-tripletap/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.3",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3"
+  },
+  "_release": "bc83ec9ee1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "bc83ec9ee1caa4daeb3e3e8d735494112124100a"
+  },
+  "_source": "git://github.com/scottwhittaker/ff-tripletap.git",
+  "_target": "master",
+  "_originalSource": "scottwhittaker/ff-tripletap",
+  "_direct": true
+}
