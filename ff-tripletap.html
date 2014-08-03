@@ -9,7 +9,12 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
 @element ff-tripletap
 @homepage http://scottwhittaker.github.io/ff-tripletap
 -->
-<polymer-element name="ff-tripletap" attributes="delay lowerCase placeholder type value">
+<polymer-element
+        name="ff-tripletap"
+        attributes="delay lowerCase placeholder type value"
+        on-keydown="{{keyDownHandler}}"
+        on-focus="{{focusHandler}}"
+        on-blur="{{blurHandler}}">
     <template>
         <link rel="stylesheet" href="ff-tripletap.css"/>
         <input id="input" value="{{value}}" type="{{type}}" placeholder="{{placeholder}}">
@@ -114,17 +119,6 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                 ready: function () {
 
                     this.setCase();
-
-                    this.addEventListener('focus', function () {
-                        this.classList.add('active');
-                        this.$.input.focus();
-                    }, false);
-
-                    this.addEventListener('blur', function () {
-                        this.classList.remove('active');
-                    }, false);
-
-                    this.$.input.addEventListener('keydown', this.onKeydown.bind(this), false);
                 },
 
                 setCase: function () {
@@ -134,7 +128,17 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                     }
                 },
 
-                onKeydown: function (e) {
+                focusHandler: function (e) {
+                    this.classList.add('active');
+                    this.$.input.focus();
+                },
+
+                blurHandler: function (e) {
+                    this.classList.remove('active');
+                    this.$.input.blur();
+                },
+
+                keyDownHandler: function (e) {
                     switch (e.keyCode) {
                     case 48:
                     case 49:
