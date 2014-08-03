@@ -100,6 +100,12 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                  */
                 value: '',
 
+                /**
+                 * The `ff-tripletap-changed` event is fired whenever the input value changes
+                 *
+                 * @event ff-tripletap-changed
+                 */
+
                 keypressCount: 0,
                 timeoutID: null,
                 currentKeyCode: -1,
@@ -147,7 +153,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                         e.preventDefault();
                         break;
                     case 8: // backspace
-                        this.$.input.value = this.$.input.value.slice(0, -1);
+                        this.value = this.$.input.value = this.$.input.value.slice(0, -1);
                         e.preventDefault();
                         break;
                     case 9:
@@ -165,6 +171,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
 
                 timeout: function () {
                     this.$.input.value += this.isSpace ? ' ' : this.$.char.textContent;
+                    this.value = this.$.input.value;
                     this.keypressCount = 0;
                     this.$.char.textContent = '';
 
@@ -184,6 +191,11 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                     }
                     this.keypressCount++;
                     this.previousKeyCode = this.currentKeyCode;
+                },
+
+                valueChanged: function(oldValue, newValue) {
+                    console.log('valueChanged: oldValue = '+oldValue +',  newValue:'+newValue);
+                    this.fire('ff-tripletap-changed');
                 }
             });
         }());
