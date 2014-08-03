@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../core-component-page/core-component-page.html">
-<!--
+<link rel="import" href="../core-component-page/core-component-page.html"><!--
 Triple-tap input for use with an RCU on connected TV's via a 5-way control.
 
 ##### Example
@@ -73,7 +72,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                  *  @attribute placeholder
                  *  @type string text
                  */
-                 placeholder: '',
+                placeholder: '',
 
                 /**
                  *  Specify input type. Default is text.
@@ -128,7 +127,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                     this.$.input.addEventListener('keydown', this.onKeydown.bind(this), false);
                 },
 
-                setCase: function() {
+                setCase: function () {
                     if (this.lowerCase) {
                         this.$.input.classList.add('lowercase');
                         this.$.char.classList.add('lowercase');
@@ -193,8 +192,7 @@ Triple-tap input for use with an RCU on connected TV's via a 5-way control.
                     this.previousKeyCode = this.currentKeyCode;
                 },
 
-                valueChanged: function(oldValue, newValue) {
-                    console.log('valueChanged: oldValue = '+oldValue +',  newValue:'+newValue);
+                valueChanged: function (oldValue, newValue) {
                     this.fire('ff-tripletap-changed');
                 }
             });
